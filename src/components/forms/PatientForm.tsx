@@ -3,10 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
+import FormSubmitButton from "../FormSubmitButton";
+import { useState } from "react";
+import { UserFormValidation } from "@/lib/validation";
 
 export enum FormFieldTypes {
   INPUT = "input",
@@ -17,22 +18,34 @@ export enum FormFieldTypes {
   SELECT = "select",
   SKELETON = "sekeleton",
 }
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
 
 const PatientForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [isLoading, setIsLoading] = useState(false);
+  const form = useForm<z.infer<typeof UserFormValidation>>({
+    resolver: zodResolver(UserFormValidation),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
+      phone: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async ({
+    name,
+    email,
+    phone,
+  }: z.infer<typeof UserFormValidation>) => {
+    setIsLoading(true);
+
+    try {
+      const user = {
+        name,
+        email,
+        phone,
+      };
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <Form {...form}>
@@ -50,7 +63,23 @@ const PatientForm = () => {
           iconSrc="/assets/icons/user.svg"
           iconAlt="icon"
         />
-        <Button type="submit">Submit</Button>
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldTypes.INPUT}
+          name="email"
+          label="Email"
+          placeholder="johndoe@gmail.com"
+          iconSrc="/assets/icons/email.svg"
+          iconAlt="icon"
+        />
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldTypes.PHONE_INPUT}
+          name="phone"
+          label="Phone number"
+          placeholder="+12133734253"
+        />
+        <FormSubmitButton isLoading={isLoading}>Get Started</FormSubmitButton>
       </form>
     </Form>
   );
