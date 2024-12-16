@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Control } from "react-hook-form";
 import { FormFieldTypes } from "./forms/PatientForm";
 import "react-phone-number-input/style.css";
-import PhoneInput, {type Value } from "react-phone-number-input";
+import PhoneInput, { type Value } from "react-phone-number-input";
 
 interface CustomProps {
   control: Control<any>;
@@ -64,6 +64,21 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
           className="input-phone"
         />
       );
+    case FormFieldTypes.DATE_PICKER:
+      return (
+        <div className="flex round-md border border-dark-500 bg-dark-400">
+          <Image
+            src="/assets/icons/calendar.svg"
+            alt="calendar"
+            height={24}
+            width={24}
+            className="ml-2"
+          />
+          <FormControl></FormControl>
+        </div>
+      );
+    case FormFieldTypes.SKELETON:
+      return <div></div>;
   }
 };
 
