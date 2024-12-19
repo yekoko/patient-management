@@ -1,3 +1,5 @@
+"use server";
+
 import { ID } from "node-appwrite";
 import {
   APPWRITE_APPOINTMENT_COLLECTION_ID,

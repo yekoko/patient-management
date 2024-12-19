@@ -31,9 +31,11 @@ const Success = async ({
         <section className="flex flex-col items-center">
           <Image
             src="/assets/gifs/success.gif"
-            alt=""
+            alt="success"
             width={300}
             height={280}
+            priority
+            className="h-auto w-auto"
           />
           <h2 className="header mb-6 max-w-[600px] text-center">
             Your <span className="text-green-500">appointment request</span> has

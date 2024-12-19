@@ -62,7 +62,7 @@ const AppointmentForm = ({
         status = "canceled";
         break;
       default:
-        status = " pending";
+        status = "pending";
     }
 
     try {
@@ -106,6 +106,18 @@ const AppointmentForm = ({
     }
     setIsLoading(false);
   };
+
+  let buttonLabel;
+  switch (type) {
+    case "cancel":
+      buttonLabel = "Cancel Appointment";
+      break;
+    case "schedule":
+      buttonLabel = "Schedule Appointment";
+      break;
+    default:
+      buttonLabel = "Submit and continue";
+  }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
@@ -115,56 +127,75 @@ const AppointmentForm = ({
             Request a new appointment in 10 seconds
           </p>
         </section>
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldTypes.SELECT}
-          name="primaryPhysician"
-          label="Doctor"
-          placeholder="Select a doctor"
+        {type !== "cancel" && (
+          <>
+            <CustomFormField
+              control={form.control}
+              fieldType={FormFieldTypes.SELECT}
+              name="primaryPhysician"
+              label="Doctor"
+              placeholder="Select a doctor"
+            >
+              {Doctors.map((doctor, idx) => (
+                <SelectItem key={doctor.name + idx} value={doctor.name}>
+                  <div className="flex cursor-pointer items-center gap-2">
+                    <Image
+                      src={doctor.image}
+                      alt="doctor"
+                      width={32}
+                      height={32}
+                      className="rounded-full border border-dark-500"
+                    />
+                    <p>{doctor.name}</p>
+                  </div>
+                </SelectItem>
+              ))}
+            </CustomFormField>
+
+            <div className="flex flex-col gap-4 xl:flex-row">
+              <CustomFormField
+                control={form.control}
+                fieldType={FormFieldTypes.TEXTAREA}
+                name="reason"
+                label="Reason for appointment"
+                placeholder="ex: Annual monthly check-up"
+              />
+              <CustomFormField
+                control={form.control}
+                fieldType={FormFieldTypes.TEXTAREA}
+                name="note"
+                label="Additional comments/notes"
+                placeholder="ex: Prefer afternoon appointments, if possible"
+              />
+            </div>
+
+            <CustomFormField
+              control={form.control}
+              fieldType={FormFieldTypes.DATE_PICKER}
+              name="schedule"
+              label="Expected appointment date"
+              placeholder="Select your appointment date"
+            />
+          </>
+        )}
+
+        {type === "cancel" && (
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldTypes.TEXTAREA}
+            name="cancellationReason"
+            label="Reason for cancellation"
+            placeholder="Urgent meeting came up"
+          />
+        )}
+
+        <FormSubmitButton
+          isLoading={isLoading}
+          className={`${
+            type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
+          } w-full`}
         >
-          {Doctors.map((doctor, idx) => (
-            <SelectItem key={doctor.name + idx} value={doctor.name}>
-              <div className="flex cursor-pointer items-center gap-2">
-                <Image
-                  src={doctor.image}
-                  alt="doctor"
-                  width={32}
-                  height={32}
-                  className="rounded-full border border-dark-500"
-                />
-                <p>{doctor.name}</p>
-              </div>
-            </SelectItem>
-          ))}
-        </CustomFormField>
-
-        <div className="flex flex-col gap-4 xl:flex-row">
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldTypes.TEXTAREA}
-            name="reason"
-            label="Reason for appointment"
-            placeholder="ex: Annual monthly check-up"
-          />
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldTypes.TEXTAREA}
-            name="note"
-            label="Additional comments/notes"
-            placeholder="ex: Prefer afternoon appointments, if possible"
-          />
-        </div>
-
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldTypes.DATE_PICKER}
-          name="schedule"
-          label="Expected appointment date"
-          placeholder="Select your appointment date"
-        />
-
-        <FormSubmitButton isLoading={isLoading}>
-          Submit and continue
+          {buttonLabel}
         </FormSubmitButton>
       </form>
     </Form>
