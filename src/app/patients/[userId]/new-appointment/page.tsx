@@ -1,5 +1,5 @@
 import AppointmentForm from "@/components/forms/AppointmentForm";
-import { getPatient, getUser } from "@/lib/actions/patient.action";
+import { getPatient } from "@/lib/actions/patient.action";
 import Image from "next/image";
 
 const NewAppointment = async ({ params }: SearchParamProps) => {
