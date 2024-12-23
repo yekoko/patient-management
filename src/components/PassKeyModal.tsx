@@ -17,13 +17,13 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp";
 
 const PassKeyModal = () => {
   const [open, setOpen] = useState(false);
-  const [passkey, setPasskey] = useState("");
+  const [passkey, setPasskey] = useState("111111");
   const [error, setError] = useState("");
   const router = useRouter();
   const path = usePathname();
 
   const encryptedKey =
-    typeof window !== undefined
+    typeof window !== "undefined"
       ? window.localStorage.getItem("accessKey")
       : null;
 

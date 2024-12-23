@@ -59,7 +59,7 @@ const AppointmentForm = ({
         status = "scheduled";
         break;
       case "cancel":
-        status = "canceled";
+        status = "cancelled";
         break;
       default:
         status = "pending";
@@ -121,12 +121,14 @@ const AppointmentForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
-        <section className="mb-12 space-y-4">
-          <h1 className="header">Hey there 👋, ....</h1>
-          <p className="text-dark-700">
-            Request a new appointment in 10 seconds
-          </p>
-        </section>
+        {type === "create" && (
+          <section className="mb-12 space-y-4">
+            <h1 className="header">Hey there 👋, ....</h1>
+            <p className="text-dark-700">
+              Request a new appointment in 10 seconds
+            </p>
+          </section>
+        )}
         {type !== "cancel" && (
           <>
             <CustomFormField
