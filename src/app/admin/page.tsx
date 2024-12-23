@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import StatCard from "@/components/StatCard";
 import { columns } from "@/components/table/columns";
 import DataTable from "@/components/table/DataTable";
@@ -20,7 +22,7 @@ const AdminPage = async () => {
             className="h-8 w-fit"
           />
         </Link>
-        <p className="text-16-semibold">Admin Dashboard</p>
+        <p className="text-16-semibold">Admin Dashboards</p>
       </header>
       <main className="admin-main">
         <section className="w-full space-y-4">
