@@ -177,6 +177,8 @@ const AppointmentForm = ({
               name="schedule"
               label="Expected appointment date"
               placeholder="Select your appointment date"
+              showTimeSelect
+              dateFormat="dd/MM/yyyy - h:mm aa"
             />
           </>
         )}
